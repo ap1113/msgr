@@ -40,6 +40,6 @@ else
 }
 ?>
 		</div>
-		<div class="foot"><a href="http://www.learn.uconn.com/">HuskCT</a></div>
+		<div class="foot"><a href="<?php echo $url_home; ?>">HOME</a></div>
 	</body>
 </html>
