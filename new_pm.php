@@ -1,5 +1,6 @@
 <?php
 include('config.php');
+include('encrypt.php');
 //New Desktop copy for test!!
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -40,7 +41,10 @@ if(isset($_POST['title'], $_POST['recip'],$_POST['message'], $_POST['key']))
 		$title = mysql_real_escape_string($otitle);
 		$recip = mysql_real_escape_string($orecip);
 		$key = mysql_real_escape_string($okey);
-		$message = mysql_real_escape_string(nl2br(htmlentities($omessage, ENT_QUOTES, 'UTF-8')));
+		
+		$cyphertext = encrypt($key, $omessage);
+		echo($cyphertext);
+		$message = mysql_real_escape_string(nl2br(htmlentities($cyphertext, ENT_QUOTES, 'UTF-8')));
 		$dn1 = mysql_fetch_array(mysql_query('select count(id) as recip, id as recipid, (select count(*) from pm) as npm from users where email="'.$recip.'"'));
 		
 		if($dn1['recip']==1)
