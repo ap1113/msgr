@@ -20,23 +20,26 @@ if(isset($_SESSION['username']))
 $form = true;
 $otitle = '';
 $orecip = '';
-$oemail = '';
+$okey = '';
 $omessage = '';
-if(isset($_POST['title'], $_POST['recip'],$_POST['message']))
+if(isset($_POST['title'], $_POST['recip'],$_POST['message'], $_POST['key']))
 {
 	$otitle = $_POST['title'];
 	$orecip = $_POST['recip'];
+	$okey =$_POST['key'];
 	$omessage = $_POST['message'];
 	if(get_magic_quotes_gpc())
 	{
 		$otitle = stripslashes($otitle);
 		$orecip = stripslashes($orecip);
+		$okey = stripslashes($okey);
 		$omessage = stripslashes($omessage);
 	}
-	if($_POST['title']!='' and $_POST['recip']!='' and $_POST['message']!='')
+	if($_POST['title']!='' and $_POST['recip']!='' and $_POST['message']!='' and $_POST['key']!='')
 	{
 		$title = mysql_real_escape_string($otitle);
 		$recip = mysql_real_escape_string($orecip);
+		$key = mysql_real_escape_string($okey);
 		$message = mysql_real_escape_string(nl2br(htmlentities($omessage, ENT_QUOTES, 'UTF-8')));
 		$dn1 = mysql_fetch_array(mysql_query('select count(id) as recip, id as recipid, (select count(*) from pm) as npm from users where email="'.$recip.'"'));
 		
@@ -113,6 +116,7 @@ if(isset($error))
 		Please fill the form with all fields to send a message. <br />
         <label for="title">Title</label><input type="text" value="<?php echo htmlentities($otitle, ENT_QUOTES, 'UTF-8'); ?>" id="title" name="title" /><br />
         <label for="recip">Recipient<span class="small">(Email)</span></label><input type="text" value="<?php echo htmlentities($orecip, ENT_QUOTES, 'UTF-8'); ?>" id="recip" name="recip" /><br />
+		<label for="key">Key<span class="small">(32 bytes)</span></label><input type="text" value="<?php echo htmlentities($okey, ENT_QUOTES, 'UTF-8'); ?>" id="key" name="key" /><br />
 		<label for="message">Message</label><textarea cols="40" rows="5" id="message" name="message"><?php echo htmlentities($omessage, ENT_QUOTES, 'UTF-8'); ?></textarea><br />
         <input type="submit" value="Send" />
     </form>
