@@ -52,7 +52,7 @@ if(isset($_POST['title'], $_POST['recip'],$_POST['message'], $_POST['key']))
 			if($dn1['recipid']!=$_SESSION['userid'])
 			{
 				$id = $dn1['npm']+1;
-				if(mysql_query('insert into pm (id, id2, title, user1, user2, message, timestamp, user1read, user2read)values("'.$id.'", "1", "'.$title.'", "'.$_SESSION['userid'].'", "'.$dn1['recipid'].'", "'.$message.'", "'.time().'", "yes", "no")'))
+				if(mysql_query('insert into pm (id, id2, title, user1, user2, message, timestamp, user1read, user2read)values("'.$id.'", "1", "'.$title.'", "'.$_SESSION['userid'].'", "'.$dn1['recipid'].'", "'.$cyphertext.'", "'.time().'", "yes", "no")'))
 				{
 ?>
 <div class="message">The message has been sent!<br />
