@@ -1,6 +1,6 @@
 <?php
 include('config.php');
-//Edit file....
+//Test in Messenger file.
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -88,7 +88,10 @@ if($dn2['avatar']!='')
 }
 ?>
 </table><br />
-<h2>Reply</h2>
+<h2>Delete Message</h2><br />
+
+<?php echo "<a href=\"delete_pm.php?id={$id}\">Delete this post</a>"; ?><br />
+<h3>Reply</h3>
 <div class="center">
     <form action="read_pm.php?id=<?php echo $id; ?>" method="post">
     	<label for="message" class="center">Message</label><br />
