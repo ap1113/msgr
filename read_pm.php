@@ -1,6 +1,7 @@
 <?php
 include('config.php');
-//Test in Messenger file.
+//msgr file.
+$key = 1;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -9,10 +10,12 @@ include('config.php');
         <link href="<?php echo $design; ?>/style.css" rel="stylesheet" title="Style" />
         <title>Read Message</title>
     </head>
+
     <body>
     	<div class="header">
         	<a href="<?php echo $url_home; ?>"><img src="<?php echo $design; ?>/images/logo.png" alt="Messenger" /></a>
 	    </div>
+
 <?php
 if(isset($_SESSION['username']))
 {
@@ -24,7 +27,8 @@ $dn1 = mysql_fetch_array($req1);
 if(mysql_num_rows($req1)==1)
 {
 if($dn1['user1']==$_SESSION['userid'] or $dn1['user2']==$_SESSION['userid'])
-{
+{ 
+	
 if($dn1['user1']==$_SESSION['userid'])
 {
 	mysql_query('update pm set user1read="yes" where id="'.$id.'" and id2="1"');
@@ -88,9 +92,17 @@ if($dn2['avatar']!='')
 }
 ?>
 </table><br />
-<h2>Delete Message</h2><br />
+<h3>Decrypt Message</h3><br />
+<div class="center">
+	<form action="decrypt_pm.php?id=<?php echo $id; ?>" method="post">
+	Key: <input type="text" name="key"><br>
+	<input type="submit">
+</form>
+</div>
 
+<h3>Delete Message</h3><br />
 <?php echo "<a href=\"delete_pm.php?id={$id}\">Delete this post</a>"; ?><br />
+
 <h3>Reply</h3>
 <div class="center">
     <form action="read_pm.php?id=<?php echo $id; ?>" method="post">
@@ -102,6 +114,7 @@ if($dn2['avatar']!='')
 </div>
 <?php
 }
+
 }
 else
 {
