@@ -1,7 +1,9 @@
 <?php
-$iv = 1;
-function decrypt($key, $message) {
-	global $iv;
+//msgr copy
+?>
+
+<?php
+function decrypt($key, $iv, $message) {
     $td = mcrypt_module_open('tripledes', '', 'ecb', '');
    
    mcrypt_generic_init($td, $key, $iv);
@@ -11,10 +13,5 @@ function decrypt($key, $message) {
     mcrypt_module_close($td);
 	
 	return $plaintext;
-}
-
-function setiv($init){
-	global $iv;
-	$iv = $init;
 }
 ?>

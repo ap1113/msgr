@@ -1,14 +1,13 @@
 <?php
-include('decrypt.php');
 //msgr copy
+$iv;
 ?>
 <?php
-
 function encrypt($key, $message) {
-	
+	global $iv;
     $td = mcrypt_module_open('tripledes', '', 'ecb', '');
     $iv = mcrypt_create_iv(mcrypt_enc_get_iv_size($td), MCRYPT_RAND);
-	setiv($iv);
+	//setiv($iv);
    
    mcrypt_generic_init($td, $key, $iv);
    
@@ -17,5 +16,9 @@ function encrypt($key, $message) {
     mcrypt_module_close($td);
 	
 	return $cyphertext;
+}
+function getiv(){
+	global $iv;
+	return $iv;
 }
 ?>

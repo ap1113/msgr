@@ -43,6 +43,9 @@ if(isset($_POST['title'], $_POST['recip'],$_POST['message'], $_POST['key']))
 		$key = mysql_real_escape_string($okey);
 		
 		$cyphertext = encrypt($key, $omessage);
+		$iv = getiv();
+		echo($iv);
+		
 		echo($cyphertext);
 		$message = mysql_real_escape_string(nl2br(htmlentities($cyphertext, ENT_QUOTES, 'UTF-8')));
 		$dn1 = mysql_fetch_array(mysql_query('select count(id) as recip, id as recipid, (select count(*) from pm) as npm from users where email="'.$recip.'"'));
@@ -52,7 +55,7 @@ if(isset($_POST['title'], $_POST['recip'],$_POST['message'], $_POST['key']))
 			if($dn1['recipid']!=$_SESSION['userid'])
 			{
 				$id = $dn1['npm']+1;
-				if(mysql_query('insert into pm (id, id2, title, user1, user2, message, timestamp, user1read, user2read)values("'.$id.'", "1", "'.$title.'", "'.$_SESSION['userid'].'", "'.$dn1['recipid'].'", "'.$cyphertext.'", "'.time().'", "yes", "no")'))
+				if(mysql_query('insert into pm (id, id2, title, user1, user2, message, invec, timestamp, user1read, user2read)values("'.$id.'", "1", "'.$title.'", "'.$_SESSION['userid'].'", "'.$dn1['recipid'].'", "'.$cyphertext.'", "'.$iv.'","'.time().'", "yes", "no")'))
 				{
 ?>
 <div class="message">The message has been sent!<br />
