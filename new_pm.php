@@ -123,7 +123,7 @@ if(isset($error))
 		Please fill the form with all fields to send a message. <br />
         <label for="title">Title</label><input type="text" value="<?php echo htmlentities($otitle, ENT_QUOTES, 'UTF-8'); ?>" id="title" name="title" /><br />
         <label for="recip">Recipient<span class="small">(Email)</span></label><input type="text" value="<?php echo htmlentities($orecip, ENT_QUOTES, 'UTF-8'); ?>" id="recip" name="recip" /><br />
-		<label for="key">Key<span class="small">(32 bytes)</span></label><input type="text" value="<?php echo htmlentities($okey, ENT_QUOTES, 'UTF-8'); ?>" id="key" name="key" /><br />
+		<label for="key">Key<span class="small">(24 bytes)</span></label><input type="text" value="<?php echo htmlentities($okey, ENT_QUOTES, 'UTF-8'); ?>" id="key" name="key" /><br />
 		<label for="message">Message</label><textarea cols="40" rows="5" id="message" name="message"><?php echo htmlentities($omessage, ENT_QUOTES, 'UTF-8'); ?></textarea><br />
         <input type="submit" value="Send" />
     </form>

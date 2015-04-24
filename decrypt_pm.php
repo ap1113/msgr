@@ -39,6 +39,16 @@ if($dn1['user1']==$_SESSION['userid'] or $dn1['user2']==$_SESSION['userid'])
 	<div class="message">Your message has been decrypted.<br />
 	<a href="index.php?id=<?php echo $id; ?>">Home</a></div>
 
+	<h3>Reply</h3>
+<div class="center">
+    <form action="reply_pm.php?id=<?php echo $id; ?>" method="post">
+		Key<label for="key"><span class="small">(24 bytes)</span></label><input type="text" id="key" name="key" /><br />
+    	<label for="message" class="center">Message</label><br />
+        <textarea cols="40" rows="5" name="message" id="message"></textarea><br />
+        <input type="submit" value="Send" />
+    </form>
+</div>
+	
 	<?php
 	}
 	else{
