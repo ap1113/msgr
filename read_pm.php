@@ -104,14 +104,7 @@ if($dn2['avatar']!='')
 <?php echo "<a href=\"delete_pm.php?id={$id}\">Delete this post</a>"; ?><br />
 
 <h3>Reply</h3>
-<div class="center">
-    <form action="read_pm.php?id=<?php echo $id; ?>" method="post">
-    	<label for="message" class="center">Message</label><br />
-        <textarea cols="40" rows="5" name="message" id="message"></textarea><br />
-        <input type="submit" value="Send" />
-    </form>
-</div>
-</div>
+<?php echo "<a href=\"reply_pm.php?id={$id}\">Reply to this post</a>"; ?><br />
 <?php
 }
 
