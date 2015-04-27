@@ -39,7 +39,8 @@ if(isset($_SESSION['username']))
 					$dn = mysql_fetch_array(mysql_query('select count(*) as nb from users where username="'.$username.'"'));
 					if($dn['nb']==0 or $_POST['username']==$_SESSION['username'])
 					{
-						if(mysql_query('update users set username="'.$username.'", password="'.$password.'", email="'.$email.'", avatar="'.$avatar.'" where id="'.mysql_real_escape_string($_SESSION['userid']).'"'))
+						$encrpass = password_hash($password, PASSWORD_DEFAULT);
+						if(mysql_query('update users set username="'.$username.'", password="'.$encrpass.'", email="'.$email.'", avatar="'.$avatar.'" where id="'.mysql_real_escape_string($_SESSION['userid']).'"'))
 						{
 							
 							$form = false;

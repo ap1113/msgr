@@ -38,7 +38,9 @@ if(isset($_POST['username'], $_POST['password'], $_POST['passverif'], $_POST['em
 				{
 					$dn2 = mysql_num_rows(mysql_query('select id from users'));
 					$id = $dn2+1;
-					if(mysql_query('insert into users(id, username, password, email, avatar, signup_date) values ('.$id.', "'.$username.'", "'.$password.'", "'.$email.'", "'.$avatar.'", "'.time().'")'))
+					$encrpass = password_hash($password, PASSWORD_DEFAULT);
+					echo $encrpass;
+					if(mysql_query('insert into users(id, username, password, email, avatar, signup_date) values ('.$id.', "'.$username.'", "'.$encrpass.'", "'.$email.'", "'.$avatar.'", "'.time().'")'))
 					{
 						$form = false;
 ?>

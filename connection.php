@@ -41,7 +41,7 @@ else
 		//Get pw
 		$req = mysql_query('select password,id from users where username="'.$username.'"');
 		$dn = mysql_fetch_array($req);
-		if($dn['password']==$password and mysql_num_rows($req)>0)
+		if(password_verify($password, $dn['password']) and mysql_num_rows($req)>0)
 		{
 			
 			$form = false;
