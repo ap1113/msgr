@@ -42,8 +42,7 @@ if(isset($_POST['title'], $_POST['recip'],$_POST['message'], $_POST['key']))
 		$recip = mysql_real_escape_string($orecip);
 		$key = mysql_real_escape_string($okey);
 		
-		$cyphertext = encrypt($key, $omessage);		
-		echo($cyphertext);
+		$cyphertext = encrypt($key, $omessage);	
 		
 		$message = mysql_real_escape_string(nl2br(htmlentities($cyphertext, ENT_QUOTES, 'UTF-8')));
 		$dn1 = mysql_fetch_array(mysql_query('select count(id) as recip, id as recipid, (select count(*) from pm) as npm from users where email="'.$recip.'"'));

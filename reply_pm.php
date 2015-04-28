@@ -28,9 +28,9 @@ if(isset($_SESSION['username']))
 		{
 			if($dn1['user1']==$_SESSION['userid'] or $dn1['user2']==$_SESSION['userid'])
 			{//Work inside protected zone here
-				if($_POST["key"]!=null){ //add more protection here?
-					$key=$_POST["key"];
-					$newmsg = $_POST["message"];
+				if(isset($_POST["key"]) and isset($_POST["message"]) and $_POST["key"]!='' and $_POST["message"]!=''){ //add more protection here?
+					$key=mysql_real_escape_string($_POST["key"]);
+					$newmsg = mysql_real_escape_string($_POST["message"]);
 					$header = '--- NEW MESSAGE---';
 					$tailer = '--- PREVIOUSLY ETC ETC --- ';
 					//echo $totmsg;
