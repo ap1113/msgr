@@ -3,17 +3,7 @@
 ?>
 
 <?php
-function decryptN($key, $iv, $message) {
-    $td = mcrypt_module_open('tripledes', '', 'ecb', '');
-   
-   mcrypt_generic_init($td, $key, $iv);
-   
-    $plaintext = mdecrypt_generic($td, $message);
-    mcrypt_generic_deinit($td);
-    mcrypt_module_close($td);
-	
-	return $plaintext;
-}
+
 function decrypt($key,$message){
 	return decryptit($message, $key, $salt='!kQm*fF3pXe1Kbm%9');
 }
