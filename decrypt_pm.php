@@ -21,7 +21,7 @@ if(isset($_GET['id']))
 {
 $id = intval($_GET['id']);
 //Grab message from db
-$req1 = mysql_query('select message, invec, user1, user2 from pm where id="'.$id.'" and id2="1"');
+$req1 = mysql_query('select message, user1, user2 from pm where id="'.$id.'" and id2="1"');
 $dn1 = mysql_fetch_array($req1);
 if(mysql_num_rows($req1)==1)
 {
@@ -29,9 +29,8 @@ if($dn1['user1']==$_SESSION['userid'] or $dn1['user2']==$_SESSION['userid'])
 {//Work inside protected zone here
 	if($_POST["key"]!=null){ //add more protection here?
 	$key=$_POST["key"];
-	$iv=$dn1['invec'];
 	$msg = $dn1['message'];
-	$plain = decrypt($key,$iv,$msg);
+	$plain = decrypt($key,$msg);
 	echo $plain;
 	
 	?>

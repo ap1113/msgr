@@ -1,6 +1,7 @@
 <?php
 include('config.php');
-include('encrypt2.php');
+include('encrypt.php');
+include ('decrypt.php');
 //msgr file.
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -21,7 +22,7 @@ if(isset($_SESSION['username']))
 	{
 		$id = intval($_GET['id']);
 		//Grab message from db
-		$req1 = mysql_query('select message, invec, user1, user2 from pm where id="'.$id.'" and id2="1"');
+		$req1 = mysql_query('select message, user1, user2 from pm where id="'.$id.'" and id2="1"');
 		$dn1 = mysql_fetch_array($req1);
 		if(mysql_num_rows($req1)==1)
 		{
@@ -32,15 +33,27 @@ if(isset($_SESSION['username']))
 					$newmsg = $_POST["message"];
 					$header = '--- NEW MESSAGE---';
 					$tailer = '--- PREVIOUSLY ETC ETC --- ';
-					$totmsg= $header.$newmsg.$tailer;
 					//echo $totmsg;
-					$iv=$dn1['invec'];
-					$prevmsg =  $dn1['message'] ;
+					$prevmsg =  decrypt($key,$dn1['message']) ;
+					$totmsg= $header.$newmsg.$tailer.$prevmsg;
 					//echo $key;
-					$encnew = encrypt2($key,$iv,$totmsg);
-					$thread = $encnew;// . $prevmsg;
-					echo $thread;
-					$resultup = mysql_query('update pm set message= "'.$thread.'" where id="'.$id.'" ');
+					$encnew = encrypt($key,$totmsg);
+					echo $totmsg."\r\n";
+					//echo $encnew;
+					$resultup = mysql_query('update pm set message= "'.$encnew.'" where id="'.$id.'" ');
+					if ($resultup)
+						{
+						//$form = false;
+?>
+<div class="message">You have successfully replied to message!<br />
+<a href="index.php">Home</a></div>
+<?php
+					}
+					else
+					{
+						//$form = true;
+						$message = 'An error occurred while replying.';
+					}
 				}
 			}
 			else
