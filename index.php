@@ -16,7 +16,6 @@ include('config.php')
 
 Hi<?php if(isset($_SESSION['username'])){echo ' '.htmlentities($_SESSION['username'], ENT_QUOTES, 'UTF-8');} ?>!<br />
 Welcome to Messenger.<br />
-You can see the list of users on this site <a href="users.php">HERE</a>.<br /><br />
 <?php
 //Logged in?
 if(isset($_SESSION['username']))

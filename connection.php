@@ -30,7 +30,7 @@ else
 		if(get_magic_quotes_gpc())
 		{
 			$ousername = stripslashes($_POST['username']);
-			$username = mysql_real_escape_string(stripslashes($_POST['username']));
+			$username = mysql_real_escape_string($ousername);
 			$password = stripslashes($_POST['password']);
 		}
 		else

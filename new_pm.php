@@ -1,6 +1,7 @@
 <?php
 include('config.php');
 include('encrypt.php');
+include('decrypt.php');
 //msgr copy!!
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -39,12 +40,11 @@ if(isset($_POST['title'], $_POST['recip'],$_POST['message'], $_POST['key']))
 	if($_POST['title']!='' and $_POST['recip']!='' and $_POST['message']!='' and $_POST['key']!='')
 	{
 		$title = mysql_real_escape_string($otitle);
-		$recip = mysql_real_escape_string($orecip);
-		$key = mysql_real_escape_string($okey);
-		
-		$cyphertext = encrypt($key, $omessage);	
-		
+		$recip = md5(mysql_real_escape_string($orecip));
+		$key = mysql_real_escape_string($okey);		
+		$cyphertext = encrypt($key, $omessage);		
 		$message = mysql_real_escape_string(nl2br(htmlentities($cyphertext, ENT_QUOTES, 'UTF-8')));
+		
 		$dn1 = mysql_fetch_array(mysql_query('select count(id) as recip, id as recipid, (select count(*) from pm) as npm from users where email="'.$recip.'"'));
 		
 		if($dn1['recip']==1)
@@ -76,12 +76,14 @@ if(isset($_POST['title'], $_POST['recip'],$_POST['message'], $_POST['key']))
 				$dn2 = mysql_num_rows(mysql_query('select id from users'));
 				$id2 = $dn2+1;
 				$username = 'Anon'. $id2;
-				$password = '123456';
+				$password = 'default';
+				$encrpass = password_hash($password, PASSWORD_DEFAULT);
+				$encremail = md5($recip);
 				$avatar = '';
-				mysql_query('insert into users(id, username, password, email, avatar, signup_date) values ('.$id2.', "'.$username.'", "'.$password.'", "'.$recip.'", "'.$avatar.'", "'.time().'")');	
+				mysql_query('insert into users(id, username, password, email, avatar, signup_date) values ('.$id2.', "'.$username.'", "'.$encrpass.'", "'.$encremail.'", "'.$avatar.'", "'.time().'")');	
 				
 				$id = $dn1['npm']+1;
-				if(mysql_query('insert into pm (id, id2, title, user1, user2, message, timestamp, user1read, user2read)values("'.$id.'", "1", "'.$title.'", "'.$_SESSION['userid'].'", "'.$id2.'", "'.$message.'", "'.time().'", "yes", "no")'))
+				if(mysql_query('insert into pm (id, id2, title, user1, user2, message, timestamp, user1read, user2read)values("'.$id.'", "1", "'.$title.'", "'.$_SESSION['userid'].'", "'.$id2.'", "'.$cyphertext.'", "'.time().'", "yes", "no")'))
 				{
 ?>
 <div class="message">The message has been sent!<br />

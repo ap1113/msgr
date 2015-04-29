@@ -40,7 +40,12 @@ if(isset($_SESSION['username']))
 					$encnew = encrypt($key,$totmsg);
 					echo $totmsg."\r\n";
 					//echo $encnew;
-					$resultup = mysql_query('update pm set message= "'.$encnew.'" where id="'.$id.'" ');
+					if($dn1['user1']==$_SESSION['userid']){
+					$resultup = mysql_query('update pm set message= "'.$encnew.'", timestamp="'.time().'", user1read="yes", user2read="no" where id="'.$id.'" ');
+					}
+					else{
+					$resultup = mysql_query('update pm set message= "'.$encnew.'", timestamp="'.time().'", user1read="no", user2read="yes" where id="'.$id.'" ');	
+					}
 					if ($resultup)
 						{
 						//$form = false;

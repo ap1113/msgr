@@ -31,16 +31,17 @@ if(isset($_POST['username'], $_POST['password'], $_POST['passverif'], $_POST['em
 			{
 				$username = mysql_real_escape_string($_POST['username']);
 				$password = mysql_real_escape_string($_POST['password']);
-				$email = mysql_real_escape_string($_POST['email']);
+				$email = md5(mysql_real_escape_string($_POST['email']));
 				$avatar = mysql_real_escape_string($_POST['avatar']);
 				$dn = mysql_num_rows(mysql_query('select id from users where username="'.$username.'"'));
-				if($dn==0)
+				$dne = mysql_num_rows(mysql_query('select id from users where email="'.$email.'"'));
+				if($dn==0 and $dne==0)
 				{
 					$dn2 = mysql_num_rows(mysql_query('select id from users'));
 					$id = $dn2+1;
 					$encrpass = password_hash($password, PASSWORD_DEFAULT);
-					echo $encrpass;
-					if(mysql_query('insert into users(id, username, password, email, avatar, signup_date) values ('.$id.', "'.$username.'", "'.$encrpass.'", "'.$email.'", "'.$avatar.'", "'.time().'")'))
+					$encremail = $email;
+					if(mysql_query('insert into users(id, username, password, email, avatar, signup_date) values ('.$id.', "'.$username.'", "'.$encrpass.'", "'.$encremail.'", "'.$avatar.'", "'.time().'")'))
 					{
 						$form = false;
 ?>
@@ -57,7 +58,7 @@ if(isset($_POST['username'], $_POST['password'], $_POST['passverif'], $_POST['em
 				else
 				{
 					$form = true;
-					$message = 'The username you want to use is not available, please choose another one.';
+					$message = 'The username or email you want to use is not available. Please choose another one or contact site administrator.';
 				}
 			}
 			else

@@ -1,5 +1,6 @@
 <?php
 include('config.php');
+include('encrypt.php');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -40,7 +41,8 @@ if(isset($_SESSION['username']))
 					if($dn['nb']==0 or $_POST['username']==$_SESSION['username'])
 					{
 						$encrpass = password_hash($password, PASSWORD_DEFAULT);
-						if(mysql_query('update users set username="'.$username.'", password="'.$encrpass.'", email="'.$email.'", avatar="'.$avatar.'" where id="'.mysql_real_escape_string($_SESSION['userid']).'"'))
+						$encremail = md5($email);
+						if(mysql_query('update users set username="'.$username.'", password="'.$encrpass.'", email="'.$encremail.'", avatar="'.$avatar.'" where id="'.mysql_real_escape_string($_SESSION['userid']).'"'))
 						{
 							
 							$form = false;
